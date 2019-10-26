@@ -37,7 +37,17 @@ export default class FormContainer extends Component{
 	submitHandler = (e) => {
 		e.preventDefault();
 		let { contactDetails } = this.state;
-		console.log('contact details .....', contactDetails);
+	}
+
+	getButtonState = () => {
+		let activeButton = true;
+		let { contactDetails } = this.state;
+		console.log(contactDetails)
+		if (contactDetails.name.length === 0 || contactDetails.email.length === 0 || contactDetails.password.length === 0
+			|| contactDetails.address.length === 0 || contactDetails.phone.length === 0) {
+			activeButton = false;
+		}
+		return activeButton;
 	}
 
 	render(){
@@ -69,7 +79,11 @@ export default class FormContainer extends Component{
 								<label>Address:</label>
 							</div>
 							<div className='form-submit-btn'>
-								<button onClick={this.submitHandler}>Next &#10142;</button>
+								{
+									this.getButtonState() ?
+										<button className='active-btn' onClick={this.submitHandler}>Submit</button>
+										: <button>Next &#10142;</button>
+								}
 							</div>
 						</form>
 					</div>

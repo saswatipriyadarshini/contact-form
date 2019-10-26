@@ -101,4 +101,10 @@ button{
   font-family: sans-serif;
   color: #efefef;
 }
+button:focus{
+  outline: none;
+}
+.active-btn{
+  background-color: rgb(182,157,230);
+}
 
