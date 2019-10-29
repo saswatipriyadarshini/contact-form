@@ -1,6 +1,12 @@
 import React, {Component, Fragment} from 'react';
 import './style.css';
-import PhoneImg from './5.jpg';
+import ZeroStage from '../images/0.png';
+import FirstStage from '../images/1.png';
+import SecondStage from '../images/2.png';
+import ThirdStage from '../images/3.png';
+import FourthStage from '../images/4.png';
+import LastStage from '../images/5.png';
+
 
 export default class FormContainer extends Component{
 	constructor(props){
@@ -19,7 +25,8 @@ export default class FormContainer extends Component{
 				password: '',
 				phone: '',
 				address: '',
-			}
+			},
+			percentage: 0
 		}
 	}
 
@@ -29,10 +36,33 @@ export default class FormContainer extends Component{
 		}
 		let details = this.state.contactDetails;
 		details[e.target.id] = e.target.value;
+
 		this.setState({
 			contactDetails: details
+		}, () => {
+			this.animationFun();
 		})
 	}
+
+	animationFun = () => {
+		let keys = Object.keys(this.state.contactDetails);
+
+		let percentage = 0;
+		for(let i = 0; i < keys.length; i++){
+			let value = this.state.contactDetails[keys[i]];
+
+			if(value){
+				percentage += 20;
+			}
+		}
+		this.setState({
+			percentage: percentage
+		})
+	}
+
+
+
+
 
 	submitHandler = (e) => {
 		e.preventDefault();
@@ -42,7 +72,6 @@ export default class FormContainer extends Component{
 	getButtonState = () => {
 		let activeButton = true;
 		let { contactDetails } = this.state;
-		console.log(contactDetails)
 		if (contactDetails.name.length === 0 || contactDetails.email.length === 0 || contactDetails.password.length === 0
 			|| contactDetails.address.length === 0 || contactDetails.phone.length === 0) {
 			activeButton = false;
@@ -51,11 +80,26 @@ export default class FormContainer extends Component{
 	}
 
 	render(){
-		const {name, email, password, phone, address} = this.state;
+		const {name, email, password, phone, address, percentage} = this.state;
+		var animation_image;
+		if(percentage === 0){
+			animation_image = ZeroStage;
+		} else if(percentage === 20){
+			animation_image  = FirstStage;
+		} else if(percentage === 40){
+			animation_image = SecondStage;
+		} else if(percentage === 60){
+			animation_image = ThirdStage;
+		} else if(percentage === 80){
+			animation_image = FourthStage
+		} else animation_image = LastStage
 		return(
 			<Fragment>
 				<div className='form__container'>
+					<div className='animation__container' style={{backgroundImage: "url(" + animation_image + ")"}}>
+					</div>
 					<div className='form-sub__container'>
+						<h2 className='form-header'>Contact Form</h2>
 						<form>
 							<div className='floating-label'>
 								<input type="text" name="name" onChange={this.onChangeHandler} value={name} id='name'/>
