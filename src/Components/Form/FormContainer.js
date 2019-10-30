@@ -1,11 +1,12 @@
 import React, {Component, Fragment} from 'react';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './style.css';
-import ZeroStage from '../images/0.png';
-import FirstStage from '../images/1.png';
-import SecondStage from '../images/2.png';
-import ThirdStage from '../images/3.png';
-import FourthStage from '../images/4.png';
-import LastStage from '../images/5.png';
+import ZeroStage from '../../images/0.png';
+import FirstStage from '../../images/1.png';
+import SecondStage from '../../images/2.png';
+import ThirdStage from '../../images/3.png';
+import FourthStage from '../../images/4.png';
+import LastStage from '../../images/5.png';
 
 
 export default class FormContainer extends Component{
@@ -26,7 +27,8 @@ export default class FormContainer extends Component{
 				phone: '',
 				address: '',
 			},
-			percentage: 0
+			percentage: 0,
+			modal: false
 		}
 	}
 
@@ -60,15 +62,6 @@ export default class FormContainer extends Component{
 		})
 	}
 
-
-
-
-
-	submitHandler = (e) => {
-		e.preventDefault();
-		let { contactDetails } = this.state;
-	}
-
 	getButtonState = () => {
 		let activeButton = true;
 		let { contactDetails } = this.state;
@@ -79,8 +72,14 @@ export default class FormContainer extends Component{
 		return activeButton;
 	}
 
+	showDetailsModal = () => {
+		this.setState(prevState => ({
+			modal: !prevState.modal,
+		}));
+	}
+
 	render(){
-		const {name, email, password, phone, address, percentage} = this.state;
+		const {contactDetails, name, email, password, phone, address, percentage, modal} = this.state;
 		var animation_image;
 		if(percentage === 0){
 			animation_image = ZeroStage;
@@ -125,13 +124,27 @@ export default class FormContainer extends Component{
 							<div className='form-submit-btn'>
 								{
 									this.getButtonState() ?
-										<button className='active-btn' onClick={this.submitHandler}>Submit</button>
-										: <button>Next &#10142;</button>
+										<button className='active-btn' onClick={this.showDetailsModal}>Submit</button>
+										: <button disabled={true}>Next &#10142;</button>
 								}
 							</div>
 						</form>
 					</div>
 				</div>
+
+			{/*	MODAL FOR SHOWING DETAILS*/}
+				<Modal isOpen={modal} toggle={this.showDetailsModal} className=''>
+					<ModalHeader toggle={this.showDetailsModal}>Contact Details</ModalHeader>
+					<ModalBody>
+						<p><b>Name:</b> {contactDetails.name} </p>
+						<p><b>Email:</b> {contactDetails.email}</p>
+						<p><b>Phone:</b> {contactDetails.phone}</p>
+						<p><b>Address:</b> {contactDetails.address}</p>
+					</ModalBody>
+					<ModalFooter>
+						<Button color="secondary" onClick={this.showDetailsModal}>Cancel</Button>
+					</ModalFooter>
+				</Modal>
 			</Fragment>
 		)
 	}

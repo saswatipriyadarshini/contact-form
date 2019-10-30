@@ -1,11 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import FormContainer from "./Components/FormContainer";
+import FormContainer from "./Components/Form/FormContainer";
+import NavBar from "./Components/NavBar";
 
 function App() {
   return (
     <div className="App">
+      <NavBar />
       <FormContainer />
     </div>
   );
