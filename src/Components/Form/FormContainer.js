@@ -72,14 +72,16 @@ export default class FormContainer extends Component{
 		return activeButton;
 	}
 
-	showDetailsModal = () => {
+	showDetailsModal = (e) => {
+		e.preventDefault();
+		console.log('contact details', this.state.contactDetails);
 		this.setState(prevState => ({
 			modal: !prevState.modal,
 		}));
 	}
 
 	render(){
-		const {contactDetails, name, email, password, phone, address, percentage, modal} = this.state;
+		const {contactDetails, percentage, modal} = this.state;
 		var animation_image;
 		if(percentage === 0){
 			animation_image = ZeroStage;
@@ -101,24 +103,24 @@ export default class FormContainer extends Component{
 						<h2 className='form-header'>Contact Form</h2>
 						<form>
 							<div className='floating-label'>
-								<input type="text" name="name" onChange={this.onChangeHandler} value={name} id='name'/>
+								<input type="text" name="name" onChange={this.onChangeHandler} value={contactDetails.name} id='name'/>
 								<label>First name:</label>
 							</div>
 
 							<div className='floating-label'>
-								<input type="email" name="email" onChange={this.onChangeHandler}  value={email} id='email'/>
+								<input type="email" name="email" onChange={this.onChangeHandler}  value={contactDetails.email} id='email'/>
 								<label>Email:</label>
 							</div>
 							<div className='floating-label'>
-								<input type="password" name="password" onChange={this.onChangeHandler}  value={password} id='password'/>
+								<input type="password" name="password" onChange={this.onChangeHandler}  value={contactDetails.password} id='password'/>
 								<label>Password:</label>
 							</div>
 							<div className='floating-label'>
-								<input type="number" name="phone" onChange={this.onChangeHandler}  value={phone} id='phone'/>
+								<input type="number" name="phone" onChange={this.onChangeHandler}  value={contactDetails.phone} id='phone'/>
 								<label>Phone:</label>
 							</div>
 							<div className='floating-label'>
-								<input type="text" name="address" onChange={this.onChangeHandler}  value={address} id='address'/>
+								<input type="text" name="address" onChange={this.onChangeHandler}  value={contactDetails.address} id='address'/>
 								<label>Address:</label>
 							</div>
 							<div className='form-submit-btn'>
